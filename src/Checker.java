@@ -39,8 +39,8 @@ public class Checker {
                 int countByReportMonth = mapToCountByMonth.get(isExpense);
                 int countByReportYear = mapToCountByYear.get(isExpense);
                 if (countByReportMonth != countByReportYear) {
-                    System.out.println("За" + monthlyReport.getMonthName(month)
-                            + "была обнаружена ошибка при сверке данных.");
+                    System.out.println("За " + monthlyReport.getMonthName(month)
+                            + " была обнаружена ошибка при сверке данных.");
                     check = false;
                 }
             }
