@@ -32,13 +32,18 @@ public class Main {
                 if (!yearlyReport.yearDataList.isEmpty()) {
                     System.out.println("Годовые отчеты успешно считались.");
                 }
-
-            /* Заменена проверка объекта класса monthReport == null на проверку
-            на пустоту списка, который возвращает метод класса readFileContents(String) при
-            удачном/неудачном считывании файла */
+            /* Добавлена конструкция try-catch. В блоке try происходит проверка на пустоту списков класса
+            monthlyReport и yearlyReport, которые указывают на удачное/неудачное считывание файла.
+            Блок catch выполняется, если пользователь не считал годовой или месячный отчет.
+             */
             } else if (command.equals("3")) {
-                if (monthlyReport.monthDataList.isEmpty() || yearlyReport.yearDataList.isEmpty()) {
-                    System.out.println("Отчёты не найдены. Считайте сначала месячные и годовые отчёты.");
+                try {
+                    if (monthlyReport.monthDataList.isEmpty() || yearlyReport.yearDataList.isEmpty()) {
+                        System.out.println("Произошла ошибка при считывании месячного или годового отчёта.");
+                        continue;
+                    }
+                } catch (NullPointerException exception) {
+                    System.out.println("Отчёты не были считаны. Считайте сначала месячные и годовые отчёты.");
                     continue;
                 }
                 Checker checker = new Checker(yearlyReport, monthlyReport);
@@ -47,8 +52,11 @@ public class Main {
                 }
 
             } else if (command.equals("4")) {
-                if (monthlyReport.monthDataList.isEmpty()) {
-                    System.out.println("Месячный отчёт не найден. Считайте сначала отчёт.");
+                if (monthlyReport == null) {
+                    System.out.println("Месячный отчёт не был считан. Считайте сначала отчёт.");
+                    continue;
+                } else if (monthlyReport.monthDataList.isEmpty()) {
+                    System.out.println("Произошла ошибка при считывании месячного отчёта.");
                     continue;
                 }
                 for (int i = 0; i < NUMBER_OF_MONTHLY_REPORTS; i++) {
@@ -64,8 +72,11 @@ public class Main {
                 }
 
             } else if (command.equals("5")) {
-                if (yearlyReport.yearDataList.isEmpty()) {
-                    System.out.println("Годовой отчёт не найден. Считайте сначала отчёт.");
+                if (yearlyReport == null) {
+                    System.out.println("Годовой отчёт не был считан. Считайте сначала отчёт.");
+                    continue;
+                } else if (yearlyReport.yearDataList.isEmpty()) {
+                    System.out.println("Произошла ошибка при считывании годового отчёта.");
                     continue;
                 }
                 System.out.println("Рассматриваемый год - " + yearlyReport.getYear());
