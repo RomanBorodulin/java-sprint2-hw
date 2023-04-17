@@ -53,7 +53,7 @@ public class MonthlyReport {
             if (!monthData.month.equals(month) || monthData.isExpense) {
                 continue;
             }
-            int totalSumOfProducts = monthData.quantity * monthData.sumOfOne;
+            int totalSumOfProducts = monthData.getTotalSum();
             if (maxSumProduct < totalSumOfProducts) {
                 maxSumProduct = totalSumOfProducts;
                 nameProduct = monthData.itemName;
@@ -71,7 +71,7 @@ public class MonthlyReport {
             if (!monthData.month.equals(month) || !monthData.isExpense) {
                 continue;
             }
-            int currentTotalExpense = monthData.quantity * monthData.sumOfOne;
+            int currentTotalExpense = monthData.getTotalSum();
             if (maxExpense < currentTotalExpense) {
                 maxExpense = currentTotalExpense;
                 nameExpense = monthData.itemName;

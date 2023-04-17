@@ -13,4 +13,8 @@ public class MonthData {
         this.sumOfOne = sumOfOne;
         this.month = month;
     }
+
+    public int getTotalSum () {
+        return quantity * sumOfOne;
+    }
 }
