@@ -17,7 +17,7 @@ public class Checker {
                 tableByMonthlyReport.put(monthData.month, new HashMap<>());
             }
             HashMap<Boolean, Integer> mapToCount = tableByMonthlyReport.get(monthData.month);
-            int totalSumOfProducts = monthData.quantity * monthData.sumOfOne;
+            int totalSumOfProducts = monthData.getTotalSum();
             // Подсчитываем сумму доходов и расходов по каждому из месяцев
             mapToCount.put(monthData.isExpense, mapToCount.getOrDefault(monthData.isExpense, 0) + totalSumOfProducts);
         }
@@ -30,14 +30,16 @@ public class Checker {
             HashMap<Boolean, Integer> mapToCount = tableByYearlyReport.get(yearData.month);
             mapToCount.put(yearData.isExpense, mapToCount.getOrDefault(yearData.isExpense, 0) + yearData.amount);
         }
-
-        for (String month : tableByMonthlyReport.keySet()) {
-            HashMap<Boolean, Integer> mapToCountByMonth = tableByMonthlyReport.get(month);
+        /* Заменен проход в цикле tableByMonthlyReport.keySet() -> tableByYearlyReport.keySet(),
+        чтобы при удалении месячного отчета обнаружить ошибку при сверке данных */
+        for (String month : tableByYearlyReport.keySet()) {
             HashMap<Boolean, Integer> mapToCountByYear = tableByYearlyReport.get(month);
+            HashMap<Boolean, Integer> mapToCountByMonth = tableByMonthlyReport.getOrDefault(month, new HashMap<>());
 
-            for (Boolean isExpense : mapToCountByMonth.keySet()) {
-                int countByReportMonth = mapToCountByMonth.get(isExpense);
+            for (Boolean isExpense : mapToCountByYear.keySet()) {
                 int countByReportYear = mapToCountByYear.get(isExpense);
+                int countByReportMonth = mapToCountByMonth.getOrDefault(isExpense, 0);
+
                 if (countByReportMonth != countByReportYear) {
                     System.out.println("За " + monthlyReport.getMonthName(month)
                             + " была обнаружена ошибка при сверке данных.");
